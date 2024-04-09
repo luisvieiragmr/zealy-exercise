@@ -31,19 +31,14 @@ export default function Home() {
 
   const handleReactionClick = (event, reaction) => {
     setReaction((prevReaction) => {
-      const currentSlide = prevReaction[current] || {
-        ANGRY: 0,
-        LAUGH: 0,
-        HAND_METAL: 0,
-      };
-      console.log("current", currentSlide[reaction]);
+      let currentSlide = { ...prevReaction[current] };
+      if (!currentSlide) {
+        currentSlide = { ANGRY: 0, LAUGH: 0, HAND_METAL: 0 };
+      }
       currentSlide[reaction]++;
-      console.log("after", currentSlide[reaction]);
-
-      return {
-        ...prevReaction,
-        [current]: currentSlide,
-      };
+      const newState = { ...prevReaction };
+      newState[current] = currentSlide;
+      return newState;
     });
   };
 
